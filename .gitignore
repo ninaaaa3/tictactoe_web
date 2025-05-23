@@ -109,5 +109,4 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
-/pnpm-lock.yaml
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,visualstudiocode,vue
