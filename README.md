@@ -1,6 +1,6 @@
 # Tic Tac Toe - Vue.js Game
 
-Este proyecto es un juego de **Tic Tac Toe** (Gato) desarrollado con **Vue.js**. Permite jugar en modo **Jugador vs Jugador** (PvP) o **Jugador vs CPU**, con distintos niveles de dificultad gracias a un algoritmo Minimax optimizado. El diseño es responsivo, soporta los navegadores más populares y cuenta con pruebas unitarias, integración continua y dockerización.
+Este proyecto es un juego de **Tic Tac Toe** (Gato) desarrollado con **Vue.js**. Permite jugar en modo **Jugador vs Jugador** (PvP) o **Jugador vs CPU**, con distintos niveles de dificultad gracias a un algoritmo Minimax optimizado. Soporta los navegadores más populares y cuenta con pruebas unitarias, integración continua y dockerización.
 
 ## Características
 
@@ -12,6 +12,7 @@ Este proyecto es un juego de **Tic Tac Toe** (Gato) desarrollado con **Vue.js**.
 - Flujo CI/CD automatizado con GitHub Actions
 - Gestión de dependencias con **pnpm**
 
+
 ## Instalación y Ejecución Local
 
 ## Configuración del proyecto
@@ -19,17 +20,20 @@ Este proyecto es un juego de **Tic Tac Toe** (Gato) desarrollado con **Vue.js**.
 pnpm install
 ```
 
-### Compilación 
-```
-pnpm run serve
-vue serve
-
-```
-
 **Requisitos:**
 
 - Node.js (v16+ recomendado)
-- [pnpm](https://pnpm.io/) (instalar con `npm install -g pnpm`)
+- pnpm (v10.6.2 recomendado)
+
+### Compilación 
+
+```
+pnpm run serve
+
+o
+
+vue serve
+```
 
 **Instalar dependencias:**
 
@@ -60,13 +64,13 @@ Puedes ejecutar la aplicación dentro de un contenedor Docker.
 **Construcción de la imagen:**
 
 ```bash
-docker build -t usuario/tic-tac-toe-vue .
+docker build -t ninaaa/tic-tac-toe-vue .
 ```
 
 **Ejecución del contenedor:**
 
 ```bash
-docker run -p 8080:80 usuario/tic-tac-toe-vue
+docker run -p 8080:80 ninaaa/tic-tac-toe-vue
 ```
 
 Accede a [http://localhost:8080](http://localhost:8080).
@@ -75,10 +79,9 @@ Accede a [http://localhost:8080](http://localhost:8080).
 
 ## CI/CD con GitHub Actions
 
-El repositorio incluye un workflow en `.github/workflows/main.yml` que se activa con cada `push`:
+El repositorio incluye dos workflow en `.github\workflows\docker.yml` y `.github\workflows\tests.yml` que se activa con cada `push`:
 
 - Ejecuta linter y pruebas unitarias.
-- Construye y publica la imagen en DockerHub (reemplaza los secretos y el usuario por los tuyos).
 
 ---
 
@@ -88,10 +91,11 @@ La imagen del juego está disponible en DockerHub:
 
 [https://hub.docker.com/r/ninaaa/vue-app]
 
-Puedes descargarla directamente con:
+Puedes descargarla directamente desde la terminal de docker con:
 
 ```bash
-docker pull ninaaa/vue-app
+docker pull ninaaa/vue-app:latest
+docker run -it -p 8000:8000 ninaaa/vue-app:latest
 ```
 
 ## Autores
