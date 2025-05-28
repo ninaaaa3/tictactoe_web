@@ -1,12 +1,12 @@
 # Tic Tac Toe - Vue.js Game
 
-Este proyecto es un juego de **Tic Tac Toe** (Gato) desarrollado con **Vue.js**. Permite jugar en modo **Jugador vs Jugador** (PvP) o **Jugador vs CPU**, con distintos niveles de dificultad gracias a un algoritmo Minimax optimizado. El diseño es responsivo, soporta los navegadores más populares y cuenta con pruebas unitarias, integración continua y dockerización. q
+Este proyecto es un juego de **Tic Tac Toe** (Gato) desarrollado con **Vue.js**. Permite jugar en modo **Jugador vs Jugador** (PvP) o **Jugador vs CPU**, con distintos niveles de dificultad gracias a un algoritmo Minimax optimizado. El diseño es responsivo, soporta los navegadores más populares y cuenta con pruebas unitarias, integración continua y dockerización.
 
 ## Características
 
 - Modo Jugador vs Jugador (PvP)
 - Modo Jugador vs CPU (IA con algoritmo Minimax, dificultad ajustable)
-- Interfaz moderna y responsiva
+- Interfaz moderna
 - Pruebas unitarias con [Vitest](https://vitest.dev/)
 - Dockerfile listo para despliegue
 - Flujo CI/CD automatizado con GitHub Actions
@@ -14,14 +14,16 @@ Este proyecto es un juego de **Tic Tac Toe** (Gato) desarrollado con **Vue.js**.
 
 ## Instalación y Ejecución Local
 
-## Project setup
+## Configuración del proyecto
 ```
 pnpm install
 ```
 
-### Compiles and hot-reloads for development
+### Compilación 
 ```
 pnpm run serve
+vue serve
+
 ```
 
 **Requisitos:**
@@ -29,14 +31,13 @@ pnpm run serve
 - Node.js (v16+ recomendado)
 - [pnpm](https://pnpm.io/) (instalar con `npm install -g pnpm`)
 
-
 **Instalar dependencias:**
 
 ```bash
 pnpm install
 ```
 
-Accede a [http://localhost:8080](http://localhost:8080) o el puerto indicado en consola.
+Accede a [http://localhost:8080] o el puerto indicado en consola.
 
 ---
 
