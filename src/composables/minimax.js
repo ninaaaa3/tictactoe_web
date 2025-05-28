@@ -30,7 +30,7 @@ export default function useMinimax(maxDepth = 9) {
     if (!gameContinue.value || squares.value[idx] !== " ") return;
 
     squares.value[idx] = "X";
-    revisarEstado();
+    review();
 
     if (gameContinue.value) {
       currentPlayer.value = "O";
@@ -49,34 +49,34 @@ export default function useMinimax(maxDepth = 9) {
     );
 
     /* 2. Decide cómo desempatar según la profundidad (= dificultad) */
-    let idxSeleccionado;
+    let idxSelected;
 
     if (maxDepth <= 2) {
       // ★ Fácil → TOTALMENTE al azar entre TODAS las casillas vacías
-      const vacías = moves; // aquí moves == casillas libres
-      idxSeleccionado = vacías[Math.floor(Math.random() * vacías.length)];
+      const empty = moves; // aquí moves == casillas libres
+      idxSelected = empty[Math.floor(Math.random() * empty.length)];
 
     } else if (maxDepth < 9) {
       // ★ Medio / Difícil → azar SOLO entre los “óptimos”
-      idxSeleccionado = moves[Math.floor(Math.random() * moves.length)];
+      idxSelected = moves[Math.floor(Math.random() * moves.length)];
 
     } else {
       // ★ Imposible → determinista (siempre la primera óptima)
-      idxSeleccionado = moves[0];
+      idxSelected = moves[0];
     }
 
     /* 3. Ejecuta la jugada y revisa el estado */
-    squares.value[idxSeleccionado] = "O";
-    revisarEstado();
+    squares.value[idxSelected] = "O";
+    review();
     if (gameContinue.value) currentPlayer.value = "X";
   }
 
   /* ─────────────────────  ALGORITMO MINIMAX  ─────────────────────── */
   function minimax(board, player, depth, limit) {
     // a) ¿Partida terminada o profundidad límite?
-    const outcome = evaluar(board);
+    const outcome = check(board);
     if (outcome !== null || depth === limit) {
-      return { bestScore: puntaje(outcome, depth), moves: libres(board) };
+      return { bestScore: score(outcome, depth), moves: free(board) };
     }
 
     // b) Inicialización del mejor puntaje según quién juega
@@ -84,7 +84,7 @@ export default function useMinimax(maxDepth = 9) {
     let bestMoves = [];               // ← Lista de todas las mejores casillas
 
     // c) Recorremos cada casilla libre
-    for (const idx of libres(board)) {
+    for (const idx of free(board)) {
       const clone = [...board];
       clone[idx] = player;
 
@@ -115,12 +115,12 @@ export default function useMinimax(maxDepth = 9) {
   }
 
   /* ───────────────  FUNCIONES AUXILIARES  ─────────────── */
-  function libres(brd) {
+  function free(brd) {
     // Devuelve array con índices vacíos
     return brd.reduce((a, v, i) => (v === " " ? a.concat(i) : a), []);
   }
 
-  function evaluar(brd) {
+  function check(brd) {
     for (const [a, b, c] of win)
       if (brd[a] !== " " && brd[a] === brd[b] && brd[b] === brd[c])
         return { winner: brd[a], line: [a, b, c] };
@@ -128,14 +128,14 @@ export default function useMinimax(maxDepth = 9) {
     return { winner: "draw", line: null };
   }
 
-  function puntaje(outcome, depth) {
+  function score(outcome, depth) {
     if (outcome && outcome.winner === "O") return 10 - depth; // CPU gana
     if (outcome && outcome.winner === "X") return -10 + depth; // Humano gana
     return 0;                                        // Empate o cutoff
   }
 
-  function revisarEstado() {
-    const res = evaluar(squares.value);
+  function review() {
+    const res = check(squares.value);
     if (res === null) return;
     gameContinue.value = false;
     gameEnd.value = res.winner === "draw" ? "Empate" : `Ganó: ${res.winner}`;
@@ -151,5 +151,5 @@ export default function useMinimax(maxDepth = 9) {
   }
 
   /* ───────────────────  EXPONEMOS A LA UI  ─────────────────── */
-  return { squares, currentPlayer, gameContinue, gameEnd, winningLine, handleClick, resetGame };
+  return { squares, currentPlayer, gameContinue, gameEnd, winningLine, handleClick, resetGame, review};
 }
