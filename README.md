@@ -27,11 +27,11 @@ pnpm install
 
 ### Compilación 
 
-```
+```bash
 pnpm run serve
-
+```
 o
-
+```bash
 vue serve
 ```
 
