@@ -11,16 +11,18 @@ import { ref } from "vue";
 
 export default function useMinimax(maxDepth = 9) {
   /* ───────────────────────────  ESTADO  ─────────────────────────── */
-  const squares       = ref(Array(9).fill(" "));
+  const squares = ref(Array(9).fill(" "));
   const currentPlayer = ref("X");       // el Humano empieza
-  const gameContinue  = ref(true);
-  const gameEnd       = ref("");
+  const gameContinue = ref(true);
+  const gameEnd = ref("");
+  const winningLine = ref(null)
+
 
   // Todas las líneas ganadoras pre-calculadas.
   const win = [
-    [0,1,2], [3,4,5], [6,7,8],   // filas
-    [0,3,6], [1,4,7], [2,5,8],   // columnas
-    [0,4,8], [2,4,6]             // diagonales
+    [0, 1, 2], [3, 4, 5], [6, 7, 8],   // filas
+    [0, 3, 6], [1, 4, 7], [2, 5, 8],   // columnas
+    [0, 4, 8], [2, 4, 6]             // diagonales
   ];
 
   /* ─────────────────────  INTERACCIÓN DEL HUMANO ─────────────────── */
@@ -39,7 +41,7 @@ export default function useMinimax(maxDepth = 9) {
   /* ──────────────────────────  TURNO CPU  ────────────────────────── */
   function cpuMove() {
     /* 1. Obtiene la(s) mejor(es) jugada(s) vía minimax */
-    const {moves } = minimax(
+    const { moves } = minimax(
       squares.value,
       "O",
       0,
@@ -84,7 +86,7 @@ export default function useMinimax(maxDepth = 9) {
     // c) Recorremos cada casilla libre
     for (const idx of libres(board)) {
       const clone = [...board];
-      clone[idx]  = player;
+      clone[idx] = player;
 
       const { bestScore: scoreHijo } = minimax(
         clone,
@@ -119,26 +121,35 @@ export default function useMinimax(maxDepth = 9) {
   }
 
   function evaluar(brd) {
-    // 'X' gana, 'O' gana, 'draw', o null (sigue).
-    for (const [a,b,c] of win)
+    for (const [a, b, c] of win)
       if (brd[a] !== " " && brd[a] === brd[b] && brd[b] === brd[c])
-        return brd[a];
-    return brd.includes(" ") ? null : "draw";
+        return { winner: brd[a], line: [a, b, c] };
+    if (brd.includes(" ")) return null;
+    return { winner: "draw", line: null };
   }
 
   function puntaje(outcome, depth) {
-    if (outcome === "O")   return  10 - depth; // CPU gana
-    if (outcome === "X")   return -10 + depth; // Humano gana
-    return 0;                                  // Empate o límite
+    if (outcome && outcome.winner === "O") return 10 - depth; // CPU gana
+    if (outcome && outcome.winner === "X") return -10 + depth; // Humano gana
+    return 0;                                        // Empate o cutoff
   }
 
   function revisarEstado() {
     const res = evaluar(squares.value);
     if (res === null) return;
     gameContinue.value = false;
-    gameEnd.value = res === "draw" ? "Empate" : `Ganó: ${res}`;
+    gameEnd.value = res.winner === "draw" ? "Empate" : `Ganó: ${res.winner}`;
+    winningLine.value = res.line;
+  }
+
+  function resetGame() {
+    squares.value = Array(9).fill(" ")
+    currentPlayer.value = "X"
+    gameContinue.value = true
+    gameEnd.value = ""
+    winningLine.value = null
   }
 
   /* ───────────────────  EXPONEMOS A LA UI  ─────────────────── */
-  return { squares, currentPlayer, gameEnd, handleClick };
+  return { squares, currentPlayer, gameContinue, gameEnd, winningLine, handleClick, resetGame };
 }

@@ -20,7 +20,6 @@ const props = defineProps({
   }
 })
 
-// Computed style based on border props
 const buttonStyle = computed(() => ({
   borderBottom: props.bottom ? '1px solid black' : '1px solid transparent',
   borderRight: props.right ? '1px solid black' : '1px solid transparent',
@@ -41,8 +40,8 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px; /* asegúrate de que sea consistente */
-  line-height: 1; /* importante para evitar salto vertical */
+  font-size: 24px; 
+  line-height: 1;
   padding: 0;
   margin: 0;
   width: 50px;
