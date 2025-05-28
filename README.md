@@ -79,9 +79,9 @@ Accede a [http://localhost:8080](http://localhost:8080).
 
 ## CI/CD con GitHub Actions
 
-El repositorio incluye dos workflow en `.github\workflows\docker.yml` y `.github\workflows\tests.yml` que se activa con cada `push`:
-
-- Ejecuta linter y pruebas unitarias.
+El repositorio incluye dos workflow que se activan con cada `push`: 
+- `.github\workflows\tests.yml` Ejecuta linter y pruebas unitarias.
+- `.github\workflows\docker.yml` Sube y actualiza la imagen del juego en DockerHub
 
 ---
 
@@ -95,6 +95,11 @@ Puedes descargarla directamente desde la terminal de docker con:
 
 ```bash
 docker pull ninaaa/vue-app:latest
+```
+
+Y ejecutarla usando:
+
+```bash
 docker run -it -p 8000:8000 ninaaa/vue-app:latest
 ```
 
