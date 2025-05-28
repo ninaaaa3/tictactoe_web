@@ -10,4 +10,4 @@ RUN pnpm install
 
 EXPOSE 8000
 
-CMD ["pnpm", "serve", "--port", "8000", "--host", "0.0.0.0"]
+CMD ["pnpm", "serve"]
