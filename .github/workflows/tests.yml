@@ -30,4 +30,6 @@ jobs:
 
       - name: Run tests
         run: pnpm test
-        
+
+      - name: Run linter
+        run: pnpm exec eslint --ext .js,.vue src
