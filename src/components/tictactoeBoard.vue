@@ -33,35 +33,37 @@ const handleClick   = (...a) => game.value.handleClick(...a)
 </script>
 
 <template>
-  <!-- Selector de dificultad -->
-  <select id="mode" v-model="mode">
-    <option value="easy">Fácil</option>
-    <option value="medium">Medio</option>
-    <option value="hard">Difícil</option>
-    <option value="impossible">Imposible</option>
-    <option value="pvp">PvP</option>
-  </select>
+  <div>
+    <!-- Selector de dificultad -->
+    <select id="mode" v-model="mode">
+      <option value="easy">Fácil</option>
+      <option value="medium">Medio</option>
+      <option value="hard">Difícil</option>
+      <option value="impossible">Imposible</option>
+      <option value="pvp">PvP</option>
+    </select>
 
-  <h1>Turno actual: {{ currentPlayer }}</h1>
+    <h1>Turno actual: {{ currentPlayer }}</h1>
 
-  <!-- Tablero -->
-  <div class="board">
-    <div class="row" v-for="r in 3" :key="`r${r}`">
-      <tictactoeSquare
-        v-for="c in 3"
-        :key="`c${r}${c}`"
-        :value="squares[(r-1)*3 + (c-1)]"
-        :handleClick="() => handleClick((r-1)*3 + (c-1))"
-        :bottom="r < 3"
-        :right="c < 3"
-      />
+    <!-- Tablero -->
+    <div class="board">
+      <div class="row" v-for="r in 3" :key="`r${r}`">
+        <tictactoeSquare
+          v-for="c in 3"
+          :key="`c${r}${c}`"
+          :value="squares[(r-1)*3 + (c-1)]"
+          :handleClick="() => handleClick((r-1)*3 + (c-1))"
+          :bottom="r < 3"
+          :right="c < 3"
+        />
+      </div>
     </div>
-  </div>
 
-  <h1>{{ gameEnd }}</h1>
+    <h1>{{ gameEnd }}</h1>
+  </div>
 </template>
 
 <style scoped>
-.board { display:flex; flex-direction:column; align-items:center; }
-.row   { display:flex; direction:ltr; }
+.board { display: flex; flex-direction: column; align-items: center; }
+.row   { display: flex; direction: ltr; }
 </style>

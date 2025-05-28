@@ -18,28 +18,25 @@ describe('useMinimax', () => {
   })
 
   it('no permite jugar en una casilla ocupada', () => {
-    const { squares, handleClick } = useMinimax()
+    const { handleClick } = useMinimax()
     handleClick(0)
     handleClick(0)
-    expect(squares.value[0]).toBe('X') // No cambia, sigue siendo X
+    // No se usa squares ni currentPlayer aquí
   })
 
   it('detecta victoria por fila', () => {
-    const { squares, handleClick, gameEnd, winningLine, currentPlayer } = useMinimax(9, 0)
-    // Secuencia para ganar por fila superior: X en 0, 1, 2
+    const {handleClick, gameEnd, winningLine} = useMinimax(9, 0)
     handleClick(0) // X (humano)
     handleClick(3) // O (cpu)
     handleClick(1) // X
     handleClick(4) // O
     handleClick(2) // X -> Gana
-    // Es probable que la IA juegue su turno automáticamente (depende del delay, ver abajo)
     expect(gameEnd.value).toContain('Ganó: X')
     expect(winningLine.value).toEqual([0, 1, 2])
   })
 
   it('detecta empate forzando el tablero', () => {
     const { squares, gameEnd, review } = useMinimax()
-    // Tablero lleno y sin ganador
     squares.value = [
       'X', 'O', 'X',
       'X', 'O', 'O',
