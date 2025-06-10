@@ -4,12 +4,17 @@
 
         <div class="controls">
             <select v-model="mode" @change="resetGame" class="mode-select">
-                <option value="easy">🐵 Fácil</option>
-                <option value="medium">🤖 Medio</option>
-                <option value="hard">🧠 Difícil</option>
-                <option value="impossible">💀 Imposible</option>
                 <option value="pvp">👥 PVP</option>
+                <option value="pvc">👥 PVC</option>
             </select>
+            <div v-if="mode === 'pvc'">
+              <select v-model="difficulty" @change="resetGame" class="mode-select">
+                  <option value="easy">🐵 Fácil</option>
+                  <option value="medium">🤖 Medio</option>
+                  <option value="hard">🧠 Difícil</option>
+                  <option value="impossible">💀 Imposible</option>
+              </select>
+            </div>
             <button @click="resetGame" class="reset-btn">
                 🔄 Nuevo Juego
             </button>
@@ -53,15 +58,16 @@ const DEPTH = {
 
 /* 3) Estado reactivo inicial ------------------------------------------ */
 // Modo de juego actual y lógica asociada (Minimax o PVP)
-const mode = ref("easy")
-const game = ref(useMinimax(DEPTH[mode.value]))
+const mode = ref("pvc")
+const difficulty = ref("easy")
+const game = ref(useMinimax(DEPTH[difficulty.value]))
 
 /* 4) Reactivar lógica al cambiar el modo ------------------------------ */
 // Reinicia el composable correspondiente según el nuevo modo
-watch(mode, (m) => {
+watch([mode, difficulty], ([m, d]) => {
     game.value = (m === "pvp")
         ? PVP()
-        : useMinimax(DEPTH[m])
+        : useMinimax(DEPTH[d])
 })
 
 /* 5) Mapeo de propiedades del juego ----------------------------------- */
